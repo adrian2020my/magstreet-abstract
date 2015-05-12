@@ -1,0 +1,9 @@
+{% extends "auth_user/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django Magstreet site') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'index' %}">{{ site_header|default:_('Welcome to Magstreet!') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

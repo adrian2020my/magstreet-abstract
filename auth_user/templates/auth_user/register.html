@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Register Now</title>
+</head>
+<body>
+
+
+
+<form class="form-vertical" action="/register/" method="post">
+    {% csrf_token %}
+
+<fieldset>
+
+<!-- Form Name -->
+<legend>Sign Up Now</legend>
+{{ state }}
+
+{% for field in form %}
+            <div class="form-group">
+              <!-- Render the field label tag -->
+		          {{ field.label_tag }}
+              <!-- If the field is required, display a * next to the field label -->
+              {% if field.field.required %}
+              *
+              {% endif %}
+              <br/>
+              <!-- Render the input field -->
+		          {{ field }}
+		        <!-- Iterate over the field's errors, if any and display
+                 them one by one in a error alert
+            -->
+                {{ field.help_text }}
+		        {% if field.errors %}
+		          <p class="error">
+		          {% for error in field.errors %}
+		            <strong>{{ error }}</strong>
+		          {% endfor %}
+		          </p>
+		        {% endif %}
+            </div>
+{% endfor %}
+
+{% if form.non_field_errors %}
+            <p class="error">
+		          {% for error in form.non_field_errors %}
+		            <strong>{{ error }}</strong>
+		          {% endfor %}
+            </p>
+{% endif %}
+
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label" for="submit"></label>
+  <div class="controls">
+    <button id="submit" name="submit" class="btn btn-primary">Register Now</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</body>
+</html>

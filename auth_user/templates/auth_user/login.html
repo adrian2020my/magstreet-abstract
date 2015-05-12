@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Magstreet Login</title>
+</head>
+<body>
+
+{{ state }}
+
+{% if user.is_authenticated %}
+        <div class="user-details">
+          You are logged in as <code>{{ user.username }}</code>!
+        </div>
+      {% endif %}
+
+<form class="form-vertical" action="/login/" method="post">
+    {% csrf_token %}
+
+<fieldset>
+
+<!-- Form Name -->
+<legend>Login</legend>
+
+{{ form.as_p }}
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label" for="submit"></label>
+  <div class="controls">
+    <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+  </div>
+</div>
+<input type="hidden" name="next" value="{{ next }}" />
+</fieldset>
+</form>
+<p></p>
+<p></p>
+{% if user.is_authenticated == False %}
+    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><strong>Login with Facebook</strong></a>
+{% else %}
+
+    <a href="/logout/"><strong>Logout</strong></a>
+
+{% endif %}
+</body>
+</html>
