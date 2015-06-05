@@ -28,17 +28,15 @@ class CheckTokenSerializer(serializers.ModelSerializer):
 class MyUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'dob', 'gender', 'agree_toc')
-
-
-
+        fields = ('id','username', 'email', 'first_name', 'last_name', 'dob', 'gender', 'auth_token', 'fb_uid')
+        read_only_fields = ('id','username', 'email', 'first_name', 'last_name', 'dob', 'gender', 'auth_token','fb_uid')
 
 
 class SignUpSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(help_text='Required. 15 characters or fewer. Alphanumerics only.',
-                                     max_length=15,
-                                     validators=[RegexValidator(regex='^[a-z0-9_-]{3,16}$',
+    username = serializers.CharField(help_text='Required. 30 characters or fewer. Alphanumerics only.',
+                                     max_length=30,
+                                     validators=[RegexValidator(regex='^[a-z0-9_-]{3,31}$',
                                                                 message='No Special Symbols allowed. Alphanumerics only',
                                                                 code='invalid'),
                                                  UniqueValidator(queryset=MyUser.objects.all())
@@ -63,13 +61,16 @@ class SignUpSerializer(serializers.ModelSerializer):
                                    )
     auth_token = TokenSerializer(read_only=True)
 
+
     class Meta:
         model = MyUser
-        fields = ('id','username', 'password', 'email', 'first_name', 'last_name', 'dob', 'gender', 'auth_token')
+        fields = ('id','username', 'password', 'email', 'first_name', 'last_name', 'dob', 'gender', 'auth_token',)
 
 
     def create(self, validated_data):
         user = MyUser.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
         Token.objects.get_or_create(user=user)
         return user
 
@@ -124,6 +125,13 @@ class SignUpSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("error")
         return attrs'''
 
+class FBTokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FbAccount
+        fields = ('facebook_token',)
+
+
 class FBDetailSerializer(serializers.ModelSerializer):
 
     user = serializers.IntegerField(read_only=True)
@@ -142,7 +150,7 @@ class FBAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FbAccount
-        fields = ('id', 'user', 'access_token', 'uid', 'date_joined', 'extra_data', 'expires_at')
+        fields = ('id', 'user', 'facebook_token', 'uid', 'date_joined', 'extra_data', 'expires_at')
         read_only_fields = ('id', 'user', 'uid', 'date_joined', 'extra_data', 'expires_at')
 
 

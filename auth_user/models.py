@@ -28,16 +28,18 @@ class MyUser(AbstractUser):
     dob = models.DateField(null=True)
     is_authenticated = models.BooleanField(default=False)
     agree_toc = models.BooleanField(default=True)
-#    facebook_token = models.CharField(max_length=100, default=' ')
+    profile_img = models.CharField(max_length=250, default=' ')
+    cover_img = models.CharField(max_length=250, default=' ')
+    fb_uid = models.CharField(max_length=250, default=' ')
 
 
 class FbAccount(models.Model):
     user = models.OneToOneField(MyUser, related_name='user_id')
-    access_token = models.TextField(verbose_name=_('Facebook User \'s Access Token'))
+    facebook_token = models.TextField(verbose_name=_('Facebook User \'s Access Token'))
     uid = models.CharField(max_length=255)
     date_joined = models.DateTimeField(auto_now_add=True)
     extra_data = JSONField(verbose_name=_('extra data'), default='{}')
-    expires_at = models.DateTimeField(blank=True, null=True,
+    expires_at = models.DateTimeField(null=True,
                                       verbose_name=_('expires at'))
 
 

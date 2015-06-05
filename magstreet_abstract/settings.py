@@ -44,15 +44,23 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
         #'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '200/day',
+        'user': '1000/day'
+    }
 }
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1607224622856299'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'dde6b6783a8747cd57f87183c34b9743' #changed to iOS app ID/Secret
 #SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 # Application definition
-
-SOCIAL_AUTH_FACEBOOK_ACCESS_TOKEN = '1607224622856299|4278AdJjvErq6fgs5vJXBKZfjlw'
+OLD_PASSWORD_FIELD_ENABLED = True
+SOCIAL_AUTH_FACEBOOK_ACCESS_TOKEN = '1603031309913208|7ogF2U1kYOKBjSGY30J19fimw2o'
 
 INSTALLED_APPS = (
 
@@ -63,6 +71,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'auth_user',
+    'categories',
+    'group',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
