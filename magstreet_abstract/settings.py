@@ -60,7 +60,6 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'dde6b6783a8747cd57f87183c34b9743' #changed to iOS
 #SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 # Application definition
 OLD_PASSWORD_FIELD_ENABLED = True
-SOCIAL_AUTH_FACEBOOK_ACCESS_TOKEN = '1603031309913208|7ogF2U1kYOKBjSGY30J19fimw2o'
 
 INSTALLED_APPS = (
 
@@ -159,8 +158,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'magstreet1',
         'USER': 'kctheng',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+#        'PASSWORD': '', #local db password
+        'PASSWORD': '77851606', #remote db password
+        'HOST': '128.199.105.73',# Or an IP Address that your DB is hosted on
+#        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
